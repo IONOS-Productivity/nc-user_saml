@@ -112,7 +112,9 @@ class SAMLSettings {
 
 		$result = [];
 		foreach ($this->configurations as $configID => $config) {
-			if (!empty($config['idp-entityId']) && !empty($config['idp-singleSignOnService.url'])) {
+			$entityId = trim((string)($config['idp-entityId'] ?? ''));
+			$ssoUrl = trim((string)($config['idp-singleSignOnService.url'] ?? ''));
+			if ($entityId !== '' && $ssoUrl !== '') {
 				$result[$configID] = $config['general-idp0_display_name'] ?? '';
 			}
 		}
