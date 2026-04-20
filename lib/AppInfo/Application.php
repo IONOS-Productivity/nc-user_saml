@@ -176,7 +176,11 @@ class Application extends App implements IBootstrap {
 				}
 
 				$multipleUserBackEnds = $samlSettings->allowMultipleUserBackEnds();
-				$configuredIdps = $samlSettings->getListOfIdps();
+				$configuredIdps = $samlSettings->getListOfConfiguredIdps();
+				// If no IdP has the minimum required config (entityId + SSO URL), fall through to normal login
+				if (empty($configuredIdps)) {
+					return;
+				}
 				$showLoginOptions = $type !== 'environment-variable' && ($multipleUserBackEnds || count($configuredIdps) > 1);
 
 				if ($redirectSituation === true && $showLoginOptions) {

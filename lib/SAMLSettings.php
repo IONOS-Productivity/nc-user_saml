@@ -101,6 +101,26 @@ class SAMLSettings {
 	}
 
 	/**
+	 * Get list of IDPs that have the minimum required configuration (entityId + SSO URL).
+	 * Used to avoid blocking login when SAML is enabled but not yet configured.
+	 *
+	 * @return array<int, string>
+	 * @throws Exception
+	 */
+	public function getListOfConfiguredIdps(): array {
+		$this->ensureConfigurationsLoaded();
+
+		$result = [];
+		foreach ($this->configurations as $configID => $config) {
+			if (!empty($config['idp-entityId']) && !empty($config['idp-singleSignOnService.url'])) {
+				$result[$configID] = $config['general-idp0_display_name'] ?? '';
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Check if multiple user back ends are allowed
 	 */
 	public function allowMultipleUserBackEnds(): bool {
