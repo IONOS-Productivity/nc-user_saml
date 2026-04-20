@@ -178,7 +178,9 @@ class Application extends App implements IBootstrap {
 				$multipleUserBackEnds = $samlSettings->allowMultipleUserBackEnds();
 				$configuredIdps = $samlSettings->getListOfConfiguredIdps();
 				// If no IdP has the minimum required config (entityId + SSO URL), fall through to normal login
-				if (empty($configuredIdps)) {
+				// only for regular SAML mode. Environment-variable mode can still redirect to SAMLController::login()
+				// without requiring configured IdP metadata.
+				if ($type === 'saml' && empty($configuredIdps)) {
 					return;
 				}
 				$showLoginOptions = $type !== 'environment-variable' && ($multipleUserBackEnds || count($configuredIdps) > 1);
