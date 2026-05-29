@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 #saml-select-user-back-end {
-	color: var(--color-primary-text);
+	color: var(--color-main-text);
 }
 
 #saml-select-user-back-end #av_mode {
@@ -18,7 +18,7 @@
 }
 
 .login-option {
-	border: 1px solid var(--color-primary-text);
+	border: 1px solid var(--color-main-text);
 	font-weight: 600;
 	height: 40px;
 
@@ -32,7 +32,7 @@
 	display:inline-block;
     width:100%;
     line-height:40px;
-	color: var(--color-primary-text);
+	color: var(--color-main-text);
 	cursor: pointer;
 }
 
