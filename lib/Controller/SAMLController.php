@@ -156,7 +156,16 @@ class SAMLController extends Controller {
 		$type = $this->config->getAppValue($this->appName, 'type');
 		switch ($type) {
 			case 'saml':
-				$settings = $this->samlSettings->getOneLoginSettingsArray($idp);
+				try {
+					$settings = $this->samlSettings->getOneLoginSettingsArray($idp);
+				} catch (\InvalidArgumentException $e) {
+					return new Http\RedirectResponse(
+						$this->urlGenerator->linkToRouteAbsolute(
+							'user_saml.SAML.genericError',
+							['message' => $this->l->t('SAML authentication is not configured. Please ask your administrator to complete the SAML setup in the admin panel.')]
+						)
+					);
+				}
 				$auth = new Auth($settings);
 				$passthroughParamsString = trim($settings['idp']['passthroughParameters'] ?? '') ;
 				$passthroughParams = array_map('trim', explode(',', $passthroughParamsString));
